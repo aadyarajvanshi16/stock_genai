@@ -6,6 +6,8 @@ plotly>=5.20
 feedparser>=6.0
 python-dotenv>=1.0
 
+langchain-core>=0.2
+langchain-text-splitters>=0.2
 langchain>=0.2
 langchain-community>=0.2
 langchain-google-genai>=1.0
