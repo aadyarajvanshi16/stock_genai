@@ -14,7 +14,7 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 
 # Chat model used by every agent (kept cheap/fast; swap here if needed)
-LLM_MODEL_NAME = "gemini-1.5-flash"
+LLM_MODEL_NAME = "gemini-3.6-flash"
 
 # RAG chunking config
 CHUNK_SIZE = 500
