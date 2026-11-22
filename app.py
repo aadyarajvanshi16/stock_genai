@@ -63,8 +63,23 @@ except Exception as e:
     st.stop()
 
 
+# ---------- Fallback: fill header gaps from price history ----------
+# Yahoo often rate-limits cloud IPs, so company_info can come back empty.
+# The price history (Stooq) is already loaded, so derive what we can from it.
+if not company_info.get("current_price"):
+    company_info["current_price"] = round(float(price_df["Close"].iloc[-1]), 2)
+    if len(price_df) > 1:
+        company_info["previous_close"] = round(float(price_df["Close"].iloc[-2]), 2)
+if not company_info.get("52w_high") or not company_info.get("52w_low"):
+    company_info["52w_high"] = round(float(price_df["High"].max()), 2)
+    company_info["52w_low"] = round(float(price_df["Low"].min()), 2)
+if company_info.get("name") == ticker:
+    company_info["name"] = ticker  # no long name available; show ticker only
+
+
 # ---------- Header ----------
-st.header(f"{company_info['name']} ({ticker})")
+_title = company_info["name"] if company_info["name"] != ticker else ticker
+st.header(f"{_title} ({ticker})" if _title != ticker else ticker)
 st.caption(f"{company_info['sector']} · {company_info['industry']}")
 metric_cards(company_info, format_market_cap)
 
